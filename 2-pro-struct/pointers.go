@@ -19,4 +19,21 @@ func main() {
 	// fmt.Println(*r)
 	fmt.Printf("%d\n", *r)
 	fmt.Printf("%d\n", t)
+
+	getResult()
+}
+
+// <----------------------------------->
+
+var x = f()
+
+func f() *int {
+	v := 1
+	return &v
+
+}
+
+func getResult() {
+
+	fmt.Println(f() == f())
 }
