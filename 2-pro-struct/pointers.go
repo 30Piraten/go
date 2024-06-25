@@ -29,9 +29,11 @@ func main() {
 	fmt.Printf("%d\n", t)
 
 	getResult()
+	incrCall()
 }
 
-// <----------------------------------->
+// it is safe for a function to return
+// the address of a local variable
 
 var x = f()
 
@@ -44,4 +46,20 @@ func f() *int {
 func getResult() {
 
 	fmt.Println(f() == f())
+}
+
+// pointers contain addresses, hence
+// passing a pointer argument to a
+// enables the function to update the
+// variable that was indirectly passed
+func increment(p *int) int {
+	*p++ // increments what p points to, not change it
+	return *p
+}
+
+func incrCall() {
+	m := 3
+	// result := increment(&m)
+	increment(&m)              // side effect m = 4
+	fmt.Println(increment(&m)) // 5 and m = 5
 }
