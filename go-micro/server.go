@@ -10,7 +10,7 @@ import (
 type helloHandlerResponse struct {
 	Message    string `json:"message"`
 	Occupation string `json:"occupation"`
-	ID         int    `json:"id"`
+	Id         int    `json:"id"`
 }
 
 func main() {
@@ -26,11 +26,19 @@ func helloHandler(w http.ResponseWriter, r *http.Request) {
 	res := helloHandlerResponse{
 		Message:    "Willkommen",
 		Occupation: "Cloud Engineer",
-		ID:         203511,
+		Id:         203511,
 	}
-	data, err := json.Marshal(res)
+
+	// set the response header to indicate JSON content
+	w.Header().Set("Content-Type", "application/json")
+
+	// encode the response as JSON and
+	// write it to the response writer
+	encoder := json.NewEncoder(w)
+	err := encoder.Encode(&res)
+
 	if err != nil {
-		panic("Told you so!")
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
 	}
-	fmt.Fprint(w, string(data))
 }
