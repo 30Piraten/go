@@ -16,13 +16,14 @@ type helloHandlerResponse struct {
 func main() {
 	port := 2323
 
-	http.HandleFunc("/helloworld", helloHandler)
+	http.HandleFunc("/", helloHandler)
 
 	log.Printf("Server starting on port: %v\n", port)
 	log.Fatal(http.ListenAndServe(fmt.Sprintf(":%v", port), nil))
 }
 
 func helloHandler(w http.ResponseWriter, r *http.Request) {
+
 	res := helloHandlerResponse{
 		Message:    "Willkommen",
 		Occupation: "Cloud Engineer",
