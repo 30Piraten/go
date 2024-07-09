@@ -3,7 +3,6 @@ package main
 import (
 	"encoding/json"
 	"fmt"
-	"io"
 	"log"
 	"net/http"
 )
@@ -27,20 +26,11 @@ func main() {
 }
 
 func reqHandler(w http.ResponseWriter, r *http.Request) {
-	body, err := io.ReadAll(r.Body)
-
-	if err != nil {
-		http.Error(w, "Bad request", http.StatusBadRequest)
-		return
-	}
-
-	if len(body) == 0 {
-		http.Error(w, "Empty body", http.StatusBadRequest)
-		return
-	}
 
 	var request handlerReq
-	err = json.Unmarshal(body, &request)
+	decoder := json.NewDecoder(r.Body)
+
+	err := decoder.Decode(&request)
 	if err != nil {
 		http.Error(w, "Bad request", http.StatusBadRequest)
 		return
